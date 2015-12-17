@@ -95,7 +95,29 @@ int main(void)
 				  0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
 				  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 				};
-				
+
+
+	 int fogColumns = 16;
+	 int fogSize = 192;
+	 int fogtileSize = 40;
+	
+
+
+	 int fogofwar[] = {
+		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0,
+		 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+		 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+		 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
+		 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+	 };
 	
 
 	al_install_keyboard();
@@ -131,6 +153,7 @@ int main(void)
 	ALLEGRO_BITMAP *podloga = al_load_bitmap("GFX/POZIOMY/POZIOM_1_PODLOGA.png");
 	ALLEGRO_BITMAP *labiryntsciana = al_load_bitmap("GFX/labiryntblock.png");
 	ALLEGRO_BITMAP *meta = al_load_bitmap("GFX/meta.png");
+	ALLEGRO_BITMAP *fog = al_load_bitmap("GFX/FOG1.png");
 
 	//gameover i next level
 	ALLEGRO_BITMAP *next = al_load_bitmap("GFX/NEXT.png");
@@ -141,9 +164,7 @@ int main(void)
 	player.x = 580;
 	player.y = 40;
 	player.speed = 3;
-
-	int playerh = 18;
-	int playerw = 18;
+	player.tile = labirynt_1[60];
 	
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -294,6 +315,8 @@ int main(void)
 				if (keys[ESCAPE]){
 					done = true;
 				}
+			
+				
 				if (keys[UP])
 					player.y -= player.speed;
 				
@@ -309,7 +332,7 @@ int main(void)
 					
 				if (keys[RIGHT])
 					player.x += player.speed;
-
+				
 				if (player.y < 40)
 					player.y = 40;
 				if (player.y > 420)
@@ -321,7 +344,8 @@ int main(void)
 				
 				
 
-				 if (player.x == 40 && player.y == 40){
+				 if (player.x == 40 && player.y == 40)
+				 {
 					state = NEXTLEVEL;
 				} 
 					
@@ -370,6 +394,7 @@ int main(void)
 					player.x = 40;
 				if (player.x > 590)
 					player.x = 590;
+				
 			}
 			else if (state == GAMEOVER)
 			{
@@ -420,6 +445,16 @@ int main(void)
 
 					}
 					
+				}
+
+				for (int i = 0; i < fogSize; i++)
+				{
+					if (fogofwar[i] == 1)
+					{
+						al_draw_bitmap(fog, fogtileSize*(i%fogColumns), fogtileSize*(i / fogColumns), 0);
+
+					}
+
 				}
 				
 
@@ -489,7 +524,7 @@ int main(void)
 
 				break;
 
-			case LEVEL2:
+		case LEVEL2:
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 				al_draw_bitmap(podloga, 0, 0, 0);
 
@@ -583,6 +618,7 @@ int main(void)
 				al_draw_bitmap(next, 0, 0, 0);
 
 				break;
+				
 			}
 		}
 	
