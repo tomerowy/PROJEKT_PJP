@@ -21,7 +21,7 @@ int main(void)
 
 	ALLEGRO_DISPLAY *display;
 	ALLEGRO_TIMER *timer = NULL;
-	
+
 
 	if (!al_init()) //allegro init
 	{
@@ -59,43 +59,47 @@ int main(void)
 	int curFrame = 0;
 	int frameCount = 0;
 	int frameDelay = 7;
-	
+
 	int count = 3000;
 
 	int mapColumns = 32;
+	int mapRows = 24;
 	int mapSize = 768;
 	int tileSize = 20;
 	int tileSize1 = 20;
 
+	int px = 3;
+	int py = 30;
+
 	
 
-	 int labirynt_1[] = { 
-				  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				  0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-				  0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0,
-				  0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1 ,0,
-				  0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-				  0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-				  0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-				  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-				};
-
+	int labirynt_1[24][32] = {
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+	};
+	player.tile = labirynt_1[px][py];
 
 	 int fogColumns = 16;
 	 int fogSize = 192;
@@ -164,7 +168,7 @@ int main(void)
 	player.x = 580;
 	player.y = 40;
 	player.speed = 3;
-	player.tile = labirynt_1[60];
+	
 	
 	al_register_event_source(event_queue, al_get_display_event_source(display));
 	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -316,31 +320,28 @@ int main(void)
 					done = true;
 				}
 			
-				
-				if (keys[UP])
-					player.y -= player.speed;
-				
-				
+				for (int i = 0; i < mapColumns; i++){
 
-				if (keys[DOWN])
-					player.y += player.speed;
+					for (int j = 0; j < mapRows; j++){
+						if (keys[UP] && labirynt_1[j][i] == 0)
+							
+						player.y += 20;
+
+						if (keys[DOWN] && labirynt_1[j][i] == 0)
+							
+						player.y -= 20;
+
+						if (keys[LEFT] && labirynt_1[j][i] == 0)
+							
+						player.x -= 20;
+
+						if (keys[RIGHT] && labirynt_1[j][i] == 0)
+							
+						player.x += 20;
+					}
+				}
 				
 				
-				if (keys[LEFT])
-					player.x -= player.speed;
-				
-					
-				if (keys[RIGHT])
-					player.x += player.speed;
-				
-				if (player.y < 40)
-					player.y = 40;
-				if (player.y > 420)
-					player.y = 420;
-				if (player.x < 40)
-					player.x = 40;
-				if (player.x > 590)
-					player.x = 590;
 				
 				
 
@@ -370,30 +371,24 @@ int main(void)
 				if (keys[ESCAPE]){
 					done = true;
 				}
-				if (keys[UP])
-					player.y -= player.speed;
+				
+					if (keys[UP] )
+						player.y -= player.speed;
 
 
 
-				if (keys[DOWN])
-					player.y += player.speed;
+					if (keys[DOWN])
+						player.y += player.speed;
 
 
-				if (keys[LEFT])
-					player.x -= player.speed;
+					if (keys[LEFT] )
+						player.x -= player.speed;
 
 
-				if (keys[RIGHT])
-					player.x += player.speed;
+					if (keys[RIGHT])
+						player.x += player.speed;
 
-				if (player.y < 40)
-					player.y = 40;
-				if (player.y > 420)
-					player.y = 420;
-				if (player.x < 40)
-					player.x = 40;
-				if (player.x > 590)
-					player.x = 590;
+				
 				
 			}
 			else if (state == GAMEOVER)
@@ -432,21 +427,24 @@ int main(void)
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 				al_draw_bitmap(podloga, 0, 0, 0);
 				
-				for (int i = 0; i < mapSize; i++)
-				{
-					if (labirynt_1[i] == 1)
-					{
-						al_draw_bitmap(labiryntsciana, tileSize*(i%mapColumns), tileSize*(i / mapColumns), 0);
+				for (int i = 0; i < mapColumns; i++){
+
+					for (int j = 0; j < mapRows; j++){
+
+						if (labirynt_1[j][i] == 1)
+						{
+							al_draw_bitmap(labiryntsciana, tileSize*(i%mapColumns), tileSize*(j%mapRows), 0);
+
+						}
+						if (labirynt_1[j][i] == 2)
+						{
+							al_draw_bitmap(meta, tileSize*(i%mapColumns), tileSize*(j%mapRows), 0);
+
+						}
 
 					}
-					if (labirynt_1[i] == 2)
-					{
-						al_draw_bitmap(meta, tileSize*(i%mapColumns), tileSize*(i / mapColumns), 0);
-
-					}
-					
 				}
-
+				
 				for (int i = 0; i < fogSize; i++)
 				{
 					if (fogofwar[i] == 1)
@@ -457,17 +455,76 @@ int main(void)
 
 				}
 				
-
+				
 
 				count--;
 				al_draw_textf(font, al_map_rgb(255, 255, 255), 20, 5, 0, "Time: %i", count);
 				if (count == 0){
 					state = GAMEOVER;
 				}
-				
-				
 
-				if (isLeft)
+			
+				
+				for (int i = 0; i < mapColumns; i++){
+
+					for (int j = 0; j < mapRows; j++){
+						if (labirynt_1[j][i]==0){
+							if (isLeft)
+							{
+								al_draw_bitmap(postacstoi[0], player.x, player.y, 0);
+							}
+
+							if (isRight){
+								al_draw_bitmap(postacstoi[3], player.x, player.y, 0);
+							}
+							if (goleft){
+
+								al_draw_bitmap(postac[curFrame], player.x, player.y, 0);
+								isLeft = true;
+								isRight = false;
+								isUp = false;
+								isDown = false;
+							}
+
+
+							if (goright){
+
+								al_draw_bitmap(postac3[curFrame], player.x, player.y, 0);
+								isLeft = false;
+								isRight = true;
+								isUp = false;
+								isDown = false;
+
+							}
+							if (isUp){
+								al_draw_bitmap(postacstoi[1], player.x, player.y, 0);
+							}
+							if (goup){
+								al_draw_bitmap(postac1[curFrame], player.x, player.y, 0);
+								isLeft = false;
+								isRight = false;
+								isUp = true;
+								isDown = false;
+							}
+							if (isDown){
+								al_draw_bitmap(postacstoi[2], player.x, player.y, 0);
+							}
+							if (godown)
+							{
+								al_draw_bitmap(postac2[curFrame], player.x, player.y, 0);
+								isLeft = false;
+								isRight = false;
+								isUp = false;
+								isDown = true;
+							}
+
+						}
+						
+					}
+				}
+			
+
+			/*	if (isLeft)
 				{
 					al_draw_bitmap(postacstoi[0], player.x, player.y, 0);
 				}
@@ -517,7 +574,7 @@ int main(void)
 				 }
 				
 				
-				
+				*/
 				
 					
 					
@@ -530,7 +587,7 @@ int main(void)
 
 				
 
-				for (int i = 0; i < mapSize; i++)
+		/*		for (int i = 0; i < mapSize; i++)
 				{
 				if (labirynt_1[i] == 1)
 				{
@@ -545,7 +602,7 @@ int main(void)
 
 			}
 
-
+			*/
 
 
 			count--;
@@ -556,7 +613,7 @@ int main(void)
 
 
 
-			if (isLeft)
+		/*	if (isLeft)
 			{
 				al_draw_bitmap(postacstoi[0], player.x, player.y, 0);
 			}
@@ -604,6 +661,7 @@ int main(void)
 				isUp = false;
 				isDown = true;
 			}
+			*/
 			break;
 			
 			case GAMEOVER:
