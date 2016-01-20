@@ -7,12 +7,12 @@
 #include<allegro5\allegro_acodec.h>
 #include "player.h"
 #include "Wall.h"
-#include "Fog.h"
+
 
 
 bool keys[] = { false, false, false, false, false,false, false, false, false};
 enum KEYS{UP, DOWN, LEFT, RIGHT, SPACE, ESCAPE, N, H, L};
-enum STATE{MENU,HOWTO,GAME,GAMEOVER, NEXTLEVEL, LEVEL2};
+enum STATE{MENU,HOWTO,GAME,GAMEOVER, NEXTLEVEL, LEVEL2, LAST};
 
 void InitPlayer(Player &player);
 void DrawPlayer(Player &player);
@@ -27,15 +27,6 @@ bool Collision(int x, int y, int wx, int wy, int w, int h)
 		return true;
 }
 
-bool CollisionFog(int x, int y, int wx, int wy, int w, int h)
-{
-	if (x + w  < wx || x > wx + w  || y + h  < wy || y >wy + h )
-	{
-		return false;
-	}
-	else
-		return true;
-}
 
 int main(void)
 {
@@ -59,7 +50,7 @@ int main(void)
 
 
 
-	al_set_window_title(display, "- - - - MAZESCAPE - - - - ");
+	al_set_window_title(display, " MAZESCAPE ");
 	timer = al_create_timer(1.0 / 60);
 	if (!timer) {
 
@@ -77,7 +68,7 @@ int main(void)
 	int state = MENU;
 	Player player;
 	Wall wall; 
-	Fog fogof;
+	
 	const int stand = 4;
 	const int maxFrame = 2;
 	int curFrame = 0;
@@ -85,6 +76,7 @@ int main(void)
 	int frameDelay = 7;
 
 	int count = 3000;
+	int count1 = 4000;
 
 	int mapColumns = 32;
 	int mapRows = 24;
@@ -94,7 +86,7 @@ int main(void)
 
 
 	
-	//-----------------------------------MAPA--------------------------------------------
+	//-----------------------------------MAPA LEVEL 1--------------------------------------------
 	int labirynt_1[24][32] = {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
@@ -122,6 +114,33 @@ int main(void)
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	};
 	
+	//-----------------------------------MAPA LEVEL 2--------------------------------------------
+	int labirynt_2[24][32] = {
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
+		{ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0 },
+		{ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0 },
+		{ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0 },
+		{ 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0 },
+		{ 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+		{ 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+		{ 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+		{ 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0 },
+		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+	};
 
 
 	al_install_keyboard();
@@ -133,7 +152,7 @@ int main(void)
 	
 	//MUZYKA
 	ALLEGRO_SAMPLE *music = al_load_sample("AUDIO/Nevermore.ogg");
-	al_reserve_samples(10);
+	al_reserve_samples(1);
 
 	ALLEGRO_FONT *font = al_load_ttf_font("FONTS/OratorStd.otf", 20, 2);
 	
@@ -171,17 +190,21 @@ int main(void)
 	//gameover i next level
 	ALLEGRO_BITMAP *next = al_load_bitmap("GFX/NEXT.png");
 	ALLEGRO_BITMAP *gameover = al_load_bitmap("GFX/GAMEOVER.png");
+	ALLEGRO_BITMAP *last = al_load_bitmap("GFX/LAST.png");
 
 	ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
 	
+	// ------------------IKONA--------------
+	al_set_display_icon(display, postacstoi[2]);
+
 	// ------------------"DANE" GRACZA ,SCIANY--------------
 	player.x = 580;
 	player.y = 40;
 	player.speed = 1.5;
 	player.w = 20;
 	player.h = 20;
-	player.bx = player.w / 2 ;
-	player.by = player.h / 2;
+	player.x1 = 580 ;
+	player.y1 = 420;
 
 	wall.x = 320;
 	wall.y = 320;
@@ -406,6 +429,7 @@ int main(void)
 			else if (state == LEVEL2)
 			{
 				
+
 				if (++frameCount >= frameDelay)
 				{
 					if (++curFrame >= maxFrame)
@@ -417,23 +441,49 @@ int main(void)
 					done = true;
 				}
 				
-					if (keys[UP] )
-						player.y -= player.speed;
+				if (keys[UP])
 
+					player.y1 -= player.speed;
 
+				if (keys[DOWN])
 
-					if (keys[DOWN])
-						player.y += player.speed;
+					player.y1 += player.speed;
 
+				if (keys[LEFT])
 
-					if (keys[LEFT] )
-						player.x -= player.speed;
+					player.x1 -= player.speed;
 
+				if (keys[RIGHT])
 
-					if (keys[RIGHT])
-						player.x += player.speed;
+					player.x1 += player.speed;
 
-				
+				for (int i = 0; i < mapColumns; i++){
+
+					for (int j = 0; j < mapRows; j++){
+						if (Collision(player.x1, player.y1, tileSize*(i%mapColumns), tileSize*(j%mapRows), 19, 19) && labirynt_2[j][i] == 1)
+						{
+							if (keys[UP])
+
+								player.y1 += player.speed;
+
+							if (keys[DOWN])
+
+								player.y1 -= player.speed;
+							
+							if (keys[LEFT])
+
+								player.x1 += player.speed;
+
+							if (keys[RIGHT])
+
+								player.x1 -= player.speed;
+						}
+					}
+				}
+				if (player.x1 >560 && player.y1 < 40)
+				{
+					state = LAST;
+				}
 				
 			}
 			else if (state == GAMEOVER)
@@ -452,6 +502,14 @@ int main(void)
 					state = LEVEL2;
 				}
 			}
+
+			else if (state == LAST)
+			{
+				if (keys[ESCAPE]){
+					done = true;
+				}
+
+			}
 		}
 	
 		if (render && al_is_event_queue_empty(event_queue))
@@ -462,7 +520,7 @@ int main(void)
 			{
 			case MENU:
 				al_draw_bitmap(menu, 0, 0, 0);
-				al_play_sample(music, 0.5, 0, 1, ALLEGRO_PLAYMODE_LOOP, 0);
+				al_play_sample(music, 1, 0, 1, ALLEGRO_PLAYMODE_LOOP, 0);
 			
 				break;
 			case HOWTO:
@@ -474,7 +532,8 @@ int main(void)
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 				al_draw_bitmap(podloga, 0, 0, 0);
 				
-
+				
+				//-----RYSOWANIE LABIRYNTU-----
 				for (int i = 0; i < mapColumns; i++){
 
 					for (int j = 0; j < mapRows; j++){
@@ -493,25 +552,13 @@ int main(void)
 					}
 				}
 				
-				/*for (int i = 0; i < fogSize; i++)
-				{
-					if (fogofwar[i] == 1)
-					{
-						al_draw_bitmap(fog, fogtileSize*(i%fogColumns), fogtileSize*(i / fogColumns), 0);
-
-					}
-
-				}
-				*/
+				
+				//-----SWIATLO-----
 				al_draw_bitmap(swiatlo, player.x-40, player.y-40, 0);
 				
+
 				
-				
-				
-			
-				
-				
-				
+				//-----PORUSZANIE POSTACI-----
 							if (isLeft)
 							{
 								al_draw_bitmap(postacstoi[0], player.x, player.y, 0);
@@ -561,16 +608,19 @@ int main(void)
 								isDown = true;
 							}
 							
+							//-----OGRANICZENIE WIDOCZNOSCI-----
 							al_draw_bitmap(cien, 0, 0, 0);
 							al_draw_bitmap(FOGcien, player.x-740, player.y-710, 0);
 							
+							//-----CZAS-----
 							count--;
 							al_draw_textf(font, al_map_rgb(255, 255, 255), 20, 5, 0, "Time: %i", count);
 							if (count == 0){
 								state = GAMEOVER;
 							}
 						
-			
+							
+							al_draw_textf(font, al_map_rgb(255, 255, 255), 535, 5, 0, "LEVEL 1");
 				
 					
 					
@@ -578,8 +628,102 @@ int main(void)
 				break;
 
 		case LEVEL2:
+			    
+			    
 				al_clear_to_color(al_map_rgb(0, 0, 0));
+				
+				
+
 				al_draw_bitmap(podloga, 0, 0, 0);
+
+
+				//-----RYSOWANIE LABIRYNTU-----
+				for (int i = 0; i < mapColumns; i++){
+
+					for (int j = 0; j < mapRows; j++){
+
+						if (labirynt_2[j][i] == 1)
+						{
+							al_draw_bitmap(labiryntsciana, tileSize*(i%mapColumns), tileSize*(j%mapRows), 0);
+
+						}
+						if (labirynt_2[j][i] == 2)
+						{
+							al_draw_bitmap(meta, tileSize*(i%mapColumns), tileSize*(j%mapRows), 0);
+
+						}
+
+					}
+				}
+
+
+				//-----SWIATLO-----
+				al_draw_bitmap(swiatlo, player.x1 - 40, player.y1 - 40, 0);
+
+
+
+				//-----PORUSZANIE POSTACI-----
+				if (isLeft)
+				{
+					al_draw_bitmap(postacstoi[0], player.x1, player.y1, 0);
+				}
+
+				if (isRight){
+					al_draw_bitmap(postacstoi[3], player.x1, player.y1, 0);
+				}
+				if (goleft){
+
+					al_draw_bitmap(postac[curFrame], player.x1, player.y1, 0);
+					isLeft = true;
+					isRight = false;
+					isUp = false;
+					isDown = false;
+				}
+
+
+				if (goright){
+
+					al_draw_bitmap(postac3[curFrame], player.x1, player.y1, 0);
+					isLeft = false;
+					isRight = true;
+					isUp = false;
+					isDown = false;
+
+				}
+				if (isUp){
+					al_draw_bitmap(postacstoi[1], player.x1, player.y1, 0);
+				}
+				if (goup){
+					al_draw_bitmap(postac1[curFrame], player.x1, player.y1, 0);
+					isLeft = false;
+					isRight = false;
+					isUp = true;
+					isDown = false;
+				}
+				if (isDown){
+					al_draw_bitmap(postacstoi[2], player.x1, player.y1, 0);
+				}
+				if (godown)
+				{
+					al_draw_bitmap(postac2[curFrame], player.x1, player.y1, 0);
+					isLeft = false;
+					isRight = false;
+					isUp = false;
+					isDown = true;
+				}
+
+				//-----OGRANICZENIE WIDOCZNOSCI-----
+				al_draw_bitmap(cien, 0, 0, 0);
+				al_draw_bitmap(FOGcien, player.x1 - 740, player.y1 - 710, 0);
+
+				//-----CZAS-----
+				count1--;
+				al_draw_textf(font, al_map_rgb(255, 255, 255), 20, 5, 0, "Time: %i", count1);
+				if (count1 == 0){
+					state = GAMEOVER;
+				}
+
+				al_draw_textf(font, al_map_rgb(255, 255, 255), 535, 5, 0, "LEVEL 2");
 
 				
 
@@ -598,34 +742,50 @@ int main(void)
 				al_draw_bitmap(next, 0, 0, 0);
 
 				break;
+
+			case LAST:
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+				al_draw_bitmap(podloga, 0, 0, 0);
+				al_draw_bitmap(last, 0, 0, 0);
+				break;
 				
 			}
 		}
 	
 
 	
-		
-		
-	
-	
-	
-		
-		
 
 	
 			
 		al_flip_display();
 		
 	}
+
+
+	al_destroy_bitmap(postacstoi[0]);
+	al_destroy_bitmap(postacstoi[1]);
+	al_destroy_bitmap(postacstoi[2]);
+	al_destroy_bitmap(postacstoi[3]);
+	al_destroy_bitmap(postac[0]);
+	al_destroy_bitmap(postac[1]);
+	al_destroy_bitmap(postac1[0]);
+	al_destroy_bitmap(postac1[1]);
+	al_destroy_bitmap(postac2[0]);
+	al_destroy_bitmap(postac2[1]);
+	al_destroy_bitmap(postac3[0]);
+	al_destroy_bitmap(postac3[1]);
 	al_destroy_bitmap(menu);
 	al_destroy_bitmap(howtoplay);
 	al_destroy_bitmap(next);
+	al_destroy_bitmap(last);
 	al_destroy_bitmap(gameover);
 	al_destroy_bitmap(FOGcien);
+	al_destroy_bitmap(swiatlo);
 	al_destroy_bitmap(podloga);
 	al_destroy_bitmap(labiryntsciana);
 	al_destroy_bitmap(meta);
 	al_destroy_sample(music);
+	al_destroy_font(font);
 	al_destroy_timer(timer);
 	al_destroy_display(display); 
 	al_destroy_event_queue(event_queue);

@@ -1,20 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MAZESCAPE", "MAZESCAPE\MAZESCAPE.vcxproj", "{2999D710-07D3-4541-81E0-9BE1CF9C4060}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Setup2", "Setup2\Setup2.isproj", "{E90A24C4-544E-4F55-A27A-E0CD27D53490}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060} = {2999D710-07D3-4541-81E0-9BE1CF9C4060}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Win32 = CD_ROM|Win32
 		Debug|Win32 = Debug|Win32
+		DVD-5|Win32 = DVD-5|Win32
 		Release|Win32 = Release|Win32
+		SingleImage|Win32 = SingleImage|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.CD_ROM|Win32.ActiveCfg = Release|Win32
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.CD_ROM|Win32.Build.0 = Release|Win32
 		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.Debug|Win32.Build.0 = Debug|Win32
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.DVD-5|Win32.ActiveCfg = Debug|Win32
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.DVD-5|Win32.Build.0 = Debug|Win32
 		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.Release|Win32.ActiveCfg = Release|Win32
 		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.Release|Win32.Build.0 = Release|Win32
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.SingleImage|Win32.ActiveCfg = Release|Win32
+		{2999D710-07D3-4541-81E0-9BE1CF9C4060}.SingleImage|Win32.Build.0 = Release|Win32
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.CD_ROM|Win32.ActiveCfg = CD_ROM
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.CD_ROM|Win32.Build.0 = CD_ROM
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.Debug|Win32.ActiveCfg = DVD-5
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.Debug|Win32.Build.0 = DVD-5
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.DVD-5|Win32.ActiveCfg = DVD-5
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.DVD-5|Win32.Build.0 = DVD-5
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.Release|Win32.ActiveCfg = SingleImage
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.Release|Win32.Build.0 = SingleImage
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.SingleImage|Win32.ActiveCfg = SingleImage
+		{E90A24C4-544E-4F55-A27A-E0CD27D53490}.SingleImage|Win32.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
